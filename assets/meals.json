@@ -1,0 +1,27 @@
+[
+  {
+    "mealName": "Lasagna",
+    "imagePath": "assets/lasagna.jpg",
+    "ingredients": ["Pasta", "Cheese", "Tomato Sauce", "Beef"]
+  },
+  {
+    "mealName": "Fettuccine Alfredo",
+    "imagePath": "assets/fettuccine_alfredo.jpg",
+    "ingredients": ["Fettuccine", "Cream", "Parmesan Cheese"]
+  },
+  {
+    "mealName": "Tabbouleh",
+    "imagePath": "assets/tabbouleh.jpg",
+    "ingredients": ["Parsley", "Tomato", "Lemon", "Bulgur"]
+  },
+  {
+    "mealName": "Falafel Wrap",
+    "imagePath": "assets/falafel_wrap.jpg",
+    "ingredients": ["Falafel", "Wrap Bread", "Hummus", "Tomato", "Lettuce", "Pickles", "Tahini Sauce"]
+  },
+  {
+    "mealName": "Pizza",
+    "imagePath": "assets/pizza.jpg",
+    "ingredients": ["Pizza Dough", "Tomato Sauce", "Cheese", "Pepperoni", "Olives", "Bell Peppers", "Oregano"]
+  }
+]

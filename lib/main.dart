@@ -1,5 +1,9 @@
+// Made By Ali Hamad 12132013 & Majed Deeb 12131613
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
-/*Made By Ali Hamad 12132013 & Majed Deeb 12131613 */
+import 'package:flutter/services.dart' show rootBundle;
+
 void main() {
   runApp(FoodRecipeApp());
 }
@@ -13,86 +17,96 @@ class FoodRecipeApp extends StatelessWidget {
   }
 }
 
-class FoodRecipePage extends StatelessWidget {
+class FoodRecipePage extends StatefulWidget {
+  @override
+  _FoodRecipePageState createState() => _FoodRecipePageState();
+}
+
+class _FoodRecipePageState extends State<FoodRecipePage> {
+  List<dynamic> meals = [];
+  List<dynamic> filteredMeals = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMeals();
+  }
+
+  Future<void> loadMeals() async {
+    final String response = await rootBundle.loadString('assets/meals.json');
+    final List<dynamic> data = json.decode(response);
+    setState(() {
+      meals = data;
+      filteredMeals = meals;
+    });
+  }
+
+  void filterMeals(String query) {
+    final results = meals.where((meal) {
+      final mealName = meal['mealName'].toLowerCase();
+      final ingredients = meal['ingredients'].map((ingredient) => ingredient.toLowerCase()).toList();
+      return mealName.contains(query.toLowerCase()) || ingredients.contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      filteredMeals = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Food Recipe',
-          style: TextStyle(color: Colors.white),
-        ),
         backgroundColor: Colors.red,
-        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Food Recipe',
+              style: TextStyle(color: Colors.white),
+            ),
+            Container(
+              width: 200.0,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  filled: true,
+                  fillColor: Colors.white24,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                ),
+                style: TextStyle(color: Colors.white),
+                onChanged: (value) {
+                  filterMeals(value);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
-      body: ListView(
+      body: ListView.builder(
         padding: EdgeInsets.all(10.0),
-        children: [
-          MealCard(
-            imagePath: 'assets/lasagna.jpg',
-            mealName: 'Lasagna',
-            ingredients: {
-              'Pasta': 2.5,
-              'Cheese': 3.0,
-              'Tomato Sauce': 1.5,
-              'Beef': 6.0,
-            },
-          ),
-          MealCard(
-            imagePath: 'assets/fettuccine_alfredo.jpg',
-            mealName: 'Fettuccine Alfredo',
-            ingredients: {
-              'Fettuccine': 3.0,
-              'Cream': 2.5,
-              'Parmesan Cheese': 4.0,
-            },
-          ),
-          MealCard(
-            imagePath: 'assets/tabbouleh.jpg',
-            mealName: 'Tabbouleh',
-            ingredients: {
-              'Parsley': 1.0,
-              'Tomato': 0.5,
-              'Lemon': 0.5,
-              'Bulgur': 1.5,
-            },
-          ),
-          MealCard(
-            imagePath: 'assets/falafel_wrap.jpg',
-            mealName: 'Falafel Wrap',
-            ingredients: {
-              'Falafel': 2.0,
-              'Wrap Bread': 1.5,
-              'Hummus': 1.0,
-              'Tomato': 0.5,
-              'Lettuce': 0.5,
-              'Pickles': 0.5,
-              'Tahini Sauce': 0.5,
-            },
-          ),
-          MealCard(
-            imagePath: 'assets/pizza.jpg',
-            mealName: 'Pizza',
-            ingredients: {
-              'Pizza Dough': 3.0,
-              'Tomato Sauce': 1.5,
-              'Cheese': 4.0,
-              'Pepperoni': 2.0,
-              'Olives': 1.0,
-              'Bell Peppers': 0.5,
-              'Oregano': 0.5,
-            },
-          ),
-        ],
+        itemCount: filteredMeals.length,
+        itemBuilder: (context, index) {
+          return MealCard(
+            imagePath: filteredMeals[index]['imagePath'],
+            mealName: filteredMeals[index]['mealName'],
+            ingredients: filteredMeals[index]['ingredients'],
+          );
+        },
       ),
     );
   }
 }
 
 class MealCard extends StatelessWidget {
-  String imagePath;
-  String mealName;
-  Map<String, double> ingredients;
+  final String imagePath;
+  final String mealName;
+  final List<dynamic> ingredients;
 
   MealCard({
     required this.imagePath,
@@ -102,7 +116,12 @@ class MealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double totalCost = ingredients.values.reduce((a, b) => a + b); // Sum the ingredient costs.
+    // Mock prices for ingredients
+    final Map<String, double> ingredientPrices = {
+      for (var ingredient in ingredients) ingredient: (ingredients.indexOf(ingredient) + 1) * 1.5,
+    };
+
+    double totalCost = ingredientPrices.values.reduce((a, b) => a + b);
 
     return Card(
       margin: EdgeInsets.only(bottom: 20.0),
@@ -127,10 +146,10 @@ class MealCard extends StatelessWidget {
             children: [
               DropdownButton<String>(
                 hint: Text('Ingredients'),
-                items: ingredients.keys.map((String ingredient) {
+                items: ingredientPrices.keys.map((String ingredient) {
                   return DropdownMenuItem<String>(
                     value: ingredient,
-                    child: Text('$ingredient (\$${ingredients[ingredient]})'),
+                    child: Text('$ingredient (\$${ingredientPrices[ingredient]?.toStringAsFixed(2)})'),
                   );
                 }).toList(),
                 onChanged: (String? value) {},
