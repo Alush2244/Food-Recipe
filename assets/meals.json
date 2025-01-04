@@ -2,26 +2,31 @@
   {
     "mealName": "Lasagna",
     "imagePath": "assets/lasagna.jpg",
-    "ingredients": ["Pasta", "Cheese", "Tomato Sauce", "Beef"]
+    "ingredients": ["Pasta", "Cheese", "Tomato Sauce", "Beef"],
+    "ingredientPrices": {"Pasta": 1.5, "Cheese": 2.5, "Tomato Sauce": 1.0, "Beef": 3.0}
   },
   {
     "mealName": "Fettuccine Alfredo",
     "imagePath": "assets/fettuccine_alfredo.jpg",
-    "ingredients": ["Fettuccine", "Cream", "Parmesan Cheese"]
+    "ingredients": ["Fettuccine", "Cream", "Parmesan Cheese"],
+    "ingredientPrices": {"Fettuccine": 2.0, "Cream": 3.0, "Parmesan Cheese": 4.5}
   },
   {
     "mealName": "Tabbouleh",
     "imagePath": "assets/tabbouleh.jpg",
-    "ingredients": ["Parsley", "Tomato", "Lemon", "Bulgur"]
+    "ingredients": ["Parsley", "Tomato", "Lemon", "Bulgur"],
+    "ingredientPrices": {"Parsley": 0.8, "Tomato": 1.0, "Lemon": 0.5, "Bulgur": 1.2}
   },
   {
     "mealName": "Falafel Wrap",
     "imagePath": "assets/falafel_wrap.jpg",
-    "ingredients": ["Falafel", "Wrap Bread", "Hummus", "Tomato", "Lettuce", "Pickles", "Tahini Sauce"]
+    "ingredients": ["Falafel", "Wrap Bread", "Hummus", "Tomato", "Lettuce", "Pickles", "Tahini Sauce"],
+    "ingredientPrices": {"Falafel": 1.0, "Wrap Bread": 0.5, "Hummus": 0.5, "Tomato": 0.5, "Lettuce": 0.2, "Pickles": 0.3, "Tahini Sauce": 0.5}
   },
   {
     "mealName": "Pizza",
     "imagePath": "assets/pizza.jpg",
-    "ingredients": ["Pizza Dough", "Tomato Sauce", "Cheese", "Pepperoni", "Olives", "Bell Peppers", "Oregano"]
+    "ingredients": ["Pizza Dough", "Tomato Sauce", "Cheese", "Pepperoni", "Olives", "Bell Peppers", "Oregano"],
+    "ingredientPrices": {"Pizza Dough": 1.2, "Tomato Sauce": 0.4, "Cheese": 2.0, "Pepperoni": 2.0, "Olives": 1.0, "Bell Peppers": 0.4, "Oregano": 0.2}
   }
 ]
